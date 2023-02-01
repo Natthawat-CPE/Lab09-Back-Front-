@@ -108,8 +108,8 @@ const menu = [
 
   { name: "ระบบสมาชิกแจ้งซ่อม", path: "/CustomerCreate" },
   { name: "ระบบ show สมาชิกแจ้งซ่อม", path: "/CustomerShow" },
-  { name: "ระบบช่าง", path: "/TechnicianCreate" },
-  { name: "ระบบshowช่าง", path: "/TechnicianShow" },
+  { name: "ระบบช่าง", path: "/TechnicianShow" },
+  { name: "ระบบshowช่าง", path: "/TechnicianCreate" },
   { name: "ระบบที่อยู่ผู้แจ้ง", path: "/AddressShowPage" },
   { name: "ระบบอุปกรณ์ผู้แจ้ง", path: "/DeviceShowPage" },
   { name: "ระบบการจัดการข้อมูลการแจ้งซ่อม", path: "/OrderCreate" },
@@ -266,8 +266,8 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/CustomerCreate" element={<CreateForm />} /> 
-                <Route path="/CustomerShow" element={< CreateForm2 />} />
-                <Route path="/TechnicianCreate" element={<CreateTechnician2 />} />
+                <Route path="/CustomerShow" element={< CreateTechnician2 />} />
+                <Route path="/TechnicianCreate" element={<CreateForm2 />} />
                 <Route path="/TechnicianShow" element={<CreateFormTech />} />
                 <Route path="/AddressShowPage" element={<AddressShowForm />} />
                 <Route path="/AddressEditPage" element={<AddressEditForm />} />

@@ -2,10 +2,25 @@ package controller
 
 import (
 	"net/http"
+	"time"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team11/entity"
 )
+
+
+type SignUpCustomer struct {
+	Name    string `valid:"required~Name cannot be blank"`
+	ID_card string
+	DOB     time.Time
+	Phone   string
+	GENDER_ID *uint
+	CAREER_ID *uint
+	PREFIX_ID *uint
+	Email    string
+	Password string
+}
 
 //GET /Gender
 // List all Gender
@@ -102,6 +117,7 @@ func CreateCustomer(c *gin.Context){
 	var career entity.Career
 	var prefix entity.Prefix
 	var customer entity.Customer
+	// var payload	SignUpCustomer
 
 	// bind เข้าตัวแปร customer
 	if err := c.ShouldBindJSON(&customer); err != nil {
@@ -126,6 +142,14 @@ func CreateCustomer(c *gin.Context){
     	c.JSON(http.StatusBadRequest, gin.H{"error": "prefix not found"})
     	return
     }
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller //TODO เป็น Test-Case ของ type ที่สร้างขึ้น ++++++ ถ้าไม่ผ่านตั้งแต่แรกจะได้ Error เลย
+	if _, err := govalidator.ValidateStruct(customer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+
     //  สร้าง Customer
     viewCS := entity.Customer{
     	Name:      		customer.Name,            // ตั้งค่าฟิลด์ Name

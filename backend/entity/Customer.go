@@ -26,7 +26,7 @@ type Prefix struct {
 
 type Customer struct {
 	gorm.Model
-	Name    string
+	Name    string `valid:"required~Name cannot be blank"`
 	ID_card string
 	DOB     time.Time
 	Phone   string

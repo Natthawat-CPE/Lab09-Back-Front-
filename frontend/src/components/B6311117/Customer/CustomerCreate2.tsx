@@ -22,6 +22,12 @@ import Chip from '@mui/material/Chip';
 import { Link as RouterLink, Route } from "react-router-dom";
 import CreateForm from "./CreateForm";
 
+
+import Stack from '@mui/material/Stack';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+
 //Grid
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -43,7 +49,6 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
       backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
     },
   }));
-
 function FacebookCircularProgress(props: CircularProgressProps) {
     return (
       <Box sx={{ position: 'relative' }}>
@@ -95,6 +100,25 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
     // const [Password, setPassword] = useState(''); 
     // const [RePassword, setRePassword] = useState(''); 
 
+    //Alert
+    const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+      props,
+      ref,
+      ) {
+      return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
+      const [success, setSuccess] = React.useState(false);
+      const [error, setError] = React.useState(false);
+
+      const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+        setSuccess(false);
+        setError(false);
+      };
+
     const handleBack = () => {
       setActiveStep(activeStep - 1);
     };
@@ -110,6 +134,8 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
         let val = typeof data === "string" ? parseInt(data) : data;
         return val;
       };
+
+    const [message, setAlertMessage] = React.useState("");
 
     function submit() {
       let data = {
@@ -143,9 +169,15 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
                         setActiveStep(0)
                     }, 1500)
                     console.log("Success");
+                    setAlertMessage("บันทึกข้อมูลสำเร็จ")
+                    setSuccess(true);
+                    // return {status: true, message: res.data}
                 } else {
                     // errorAlert();
-                    console.log("Error");
+                    setAlertMessage(res.error)
+                    // console.log(res.error);
+                    setError(true);
+                    // return {status: false, message: res.error}
                 }
             });
   
@@ -185,6 +217,29 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
       <br /><br />
 
       <Container maxWidth="md">
+
+      <Snackbar
+        id="success"
+        open={success}
+        autoHideDuration={8000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          {message} 
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        id="error"
+        open={error}
+        autoHideDuration={8000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          {message} 
+        </Alert>
+      </Snackbar>
 
         <Box sx={{ bgcolor: '#f1f8e9', height: '75vh', marginY: 4 }} >
 
