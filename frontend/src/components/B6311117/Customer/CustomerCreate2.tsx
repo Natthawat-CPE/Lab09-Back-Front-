@@ -221,7 +221,7 @@ function CustomerCreate2({ formCreate, setFormCreate, activeStep, setActiveStep,
       <Snackbar
         id="success"
         open={success}
-        autoHideDuration={8000}
+        autoHideDuration={9000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
